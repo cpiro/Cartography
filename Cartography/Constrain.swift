@@ -329,3 +329,74 @@ public func constrain(clear group: ConstraintGroup) {
 
     return group
 }
+
+/// one item and a list of items
+@discardableResult public func constrain<A: LayoutItem, T: LayoutItem>(
+    _ item1: A, also items: [T], replace group: ConstraintGroup = .init(),
+    block: (A.ProxyType, [T.ProxyType]) -> Void) -> ConstraintGroup {
+    let ctx = Context()
+
+    let proxy1 = item1.asProxy(context: ctx)
+    let proxyA = items.map { $0.asProxy(context: ctx) }
+    block(proxy1, proxyA)
+
+    group.replaceConstraints(ctx.constraints)
+
+    return group
+}
+
+/// two items and a list of items
+@discardableResult public func constrain<A: LayoutItem, B: LayoutItem, T: LayoutItem>(
+  _ item1: A, _ item2: B, also items: [T], replace group: ConstraintGroup = .init(),
+  block: (A.ProxyType, B.ProxyType, [T.ProxyType]) -> Void) -> ConstraintGroup {
+    let ctx = Context()
+
+    let proxy1 = item1.asProxy(context: ctx)
+    let proxy2 = item2.asProxy(context: ctx)
+    let proxyA = items.map { $0.asProxy(context: ctx) }
+    block(proxy1, proxy2, proxyA)
+
+    group.replaceConstraints(ctx.constraints)
+
+    return group
+}
+
+/// one item and two lists of items
+@discardableResult public func constrain<A: LayoutItem, T: LayoutItem, S: LayoutItem>(
+  _ item1: A,
+  also items1: [T],
+  also items2: [S],
+  replace group: ConstraintGroup = .init(),
+  block: (A.ProxyType, [T.ProxyType], [S.ProxyType]) -> Void) -> ConstraintGroup {
+    let ctx = Context()
+
+    let proxy1 = item1.asProxy(context: ctx)
+    let proxyA = items1.map { $0.asProxy(context: ctx) }
+    let proxyB = items2.map { $0.asProxy(context: ctx) }
+    block(proxy1, proxyA, proxyB)
+
+    group.replaceConstraints(ctx.constraints)
+
+    return group
+}
+
+/// two items and two lists of items
+@discardableResult public func constrain<A: LayoutItem, B: LayoutItem, T: LayoutItem, S: LayoutItem>(
+  _ item1: A,
+  _ item2: B,
+  also items1: [T],
+  also items2: [S],
+  replace group: ConstraintGroup = .init(),
+  block: (A.ProxyType, B.ProxyType, [T.ProxyType], [S.ProxyType]) -> Void) -> ConstraintGroup {
+    let ctx = Context()
+
+    let proxy1 = item1.asProxy(context: ctx)
+    let proxy2 = item2.asProxy(context: ctx)
+    let proxyA = items1.map { $0.asProxy(context: ctx) }
+    let proxyB = items2.map { $0.asProxy(context: ctx) }
+    block(proxy1, proxy2, proxyA, proxyB)
+
+    group.replaceConstraints(ctx.constraints)
+
+    return group
+}
